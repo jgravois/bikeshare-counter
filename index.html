@@ -1,5 +1,5 @@
 <!--
-  do something with optionally provided photo
+  make the context messages dismissable
 -->
 
 <!doctype html>
@@ -22,49 +22,65 @@
     <div class="wrapper">
       <div class="grid-container">
         <div class="column-7 tablet-column-3">
-          <div>...</div>
+          <div>.</div>
         </div>
         <div class="column-10 tablet-column-6">
           <h1 class="leader-3" >Esri bikeshare</h1>
           <!--form action="" method="POST"-->
-
-            <fieldset class="fieldset-radio">
-              <legend>How many bikes did you borrow?</legend>
+            <fieldset id="numBikes" class="fieldset-radio">
+              <legend>How many bicycles did you borrow?</legend>
               <label>
-                  <input checked type="radio" name="source" value=0>None
+                  <input class="dummy" type="radio" name="source" value=0>None
                 </label>
               <label>
-                <input checked type="radio" name="source" value=1>Just one
+                <input class="dummy" checked type="radio" name="source" value=1>Just one
               </label>
               <label>
-                <input type="radio" name="source" value=2>More than one
+                <input class="dummy" type="radio" name="source" value=2>More than one
               </label>
             </fieldset>
             <label>
-              When?
+              When did you ride?
               <input id="bikeshareDate" type="date" placeholder="mm/dd/yyyy" value="2001-02-03" required>
             </label>
+            <label class="toggle-switch toggle-switch-destructive modifier-class clearfix">
+                <span class="toggle-switch-label left font-size--1">Are any repairs needed?</span>
+                <input id="needsRepair" type="checkbox" class="toggle-switch-input toggle-switch-destructive" onchange="showMessage()">
+                <span class="toggle-switch-track right"></span>
+              </label>
+              <div class="leader-1 trailer-1">
+                  <div id="repairInfo" class="alert alert-yellow modifier-class leader-1">
+                      If so, please send us an <a href="mailto:info@bikebbq.com">email</a> describing the problem and we will sort it out as quickly as possible.
+                      <button class="alert-close">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon">
+                            <path d="M18.404 16l9.9 9.9-2.404 2.404-9.9-9.9-9.9 9.9L3.696 25.9l9.9-9.9-9.9-9.898L6.1 3.698l9.9 9.899 9.9-9.9 2.404 2.406-9.9 9.898z"/>
+                          </svg>
+                        </button>
+                  </div>
+                </div>
             <label>
-              Do you have any feedback? (optional)
-              <textarea id="feedback" placeholder="loaner bike #2 has a flat tire!" rows="5"></textarea>
-            </label>
-            <!--label>
-              What is your email address? (optional)
-              <input id="contact" type="email" placeholder="jack@esri.com" autocomplete="email">
+              Do you have any other feedback? (optional)
+              <textarea id="feedback" placeholder="the seat on loaner bike #2 hurts!" rows="5"></textarea>
             </label>
             <label>
-              Want to share a photo? (optional)
-              <input type="file">
-            </label-->
+              Do you have a photo to share? (optional)
+              <input id="attachment" type="file">
+            </label>
             <button onclick="postFeedback()" type="submit" class="btn">Submit</button>
-            <div class="leader-1">
-              <span id="results"></span>
+
+
+            <div id="results" class="alert alert-green modifier-class leader-1">
+                The information has been submitted. Thank you!
+                <button class="alert-close">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon">
+                    <path d="M18.404 16l9.9 9.9-2.404 2.404-9.9-9.9-9.9 9.9L3.696 25.9l9.9-9.9-9.9-9.898L6.1 3.698l9.9 9.899 9.9-9.9 2.404 2.406-9.9 9.898z"/>
+                  </svg>
+                </button>
             </div>
-          <!--/form-->
 
         </div>
         <div class="column-7 tablet-column-3">
-            <div>...</div>
+            <div>.</div>
           </div>
       </div>
 
@@ -93,27 +109,38 @@
     <script>
       calcite.init()
 
-      function postFeedback (evt) {
-        const url = "https://services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/stationActivity/FeatureServer/1/applyEdits";
+      function postFeedback () {
+        const url = "https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/esri_bikeshare_counts/FeatureServer/0/applyEdits";
+
+        // introspect the fieldset for the currently selected radio
+        const howMany = document.querySelector('.dummy:checked').value;
+
         arcgisRest.request(url, {
           params: {
             adds: [{
               attributes: {
-                "STATION_ID": 0, // building M
-                "TIMESTAMP": document.getElementById("bikeshareDate").value,
-                "COMMENTS": document.getElementById("feedback").value,
-                "_USER": document.getElementById("contact").value
+                "DATE": document.getElementById("bikeshareDate").value,
+                "NUMBIKES": howMany,
+                "FEEDBACK": document.getElementById("feedback").value
               }
             }]
           }
         })
           .then(response => {
             if (response.addResults.length > 0) {
-              document.getElementById("results").innerHTML = "Your log has been submitted. Thank you!"
+              document.getElementById("results").className += " is-active";
+
+              // append a file attachment to the new record (if one has been supplied).
+              if (document.getElementById("attachment").value) {
+                const attachmentUrl = `https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/esri_bikeshare_counts/FeatureServer/0/${response.addResults[0].objectId}/addAttachment`
+
+                arcgisRest.request(attachmentUrl, {
+                  params: {
+                    "attachment": document.getElementById("attachment").files[0]
+                  }
+                })
+              }
             }
-            // use OBJECTID that is returned to append a file attachment if one has been supplied.
-            // if () {
-            // }
           });
       }
 
@@ -131,8 +158,13 @@
         return today.getFullYear() + '-' + mm + '-' + dd;
       }
 
-      // use today's date by default
+      // for starters assume they are borrowing a bike today
       document.getElementById("bikeshareDate").value = todayFormatted();
+
+      // since the feature service itself isn't monitored, email is the best way to request repairs.
+      function showMessage(e) {
+        document.getElementById("repairInfo").className += " is-active";
+      }
     </script>
   </body>
 </html>
