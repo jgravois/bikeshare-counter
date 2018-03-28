@@ -1,189 +1,170 @@
-<!DOCTYPE html>
-<html lang="en">
+<!--
+  make the context messages dismissable
+-->
 
-<head>
-
+<!doctype html>
+<!--[if lt IE 9]>  <html class="ie lt-ie9 ie8"> <![endif]-->
+<!--[if IE 9]>     <html class="ie ie9"> <![endif]-->
+<!--[if !IE]><!--> <html> <!--<![endif]-->
+  <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Bikeshare</title>
-
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="css/grayscale.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Esri Bikeshare Counter</title>
+    <!--link rel="shortcut icon" href="/img/favicon.ico"-->
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-rc.9/css/calcite-web.min.css">
     <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <script src="/assets/javascripts/libs/selectivizr.js"></script>
+      <script src="/assets/javascripts/libs/html5shiv.js"></script>
     <![endif]-->
-
-</head>
-
-<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
-                    <i class="fa fa-bars"></i>
-                </button>
-                <a class="navbar-brand page-scroll" href="#page-top">
-                    <i class="fa fa-play-circle"></i>  <span class="light">Top</span>
-                </a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
-                <ul class="nav navbar-nav">
-                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
-                    <li class="hidden">
-                        <a href="#page-top"></a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#go">Lets go!</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="grid-container">
+        <div class="column-7 tablet-column-3">
+          <div>.</div>
         </div>
-        <!-- /.container -->
-    </nav>
-
-    <!-- Intro Header -->
-    <header class="intro">
-        <div class="intro-body">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <h2>IEBA/BikeBBQ Bikeshare<br>Redlands, California</h2>
-                        <p class="intro-text">Find out how many bikes are available and submit feedback.</p>
-                        <a href="#go" class="btn btn-circle page-scroll">
-                            <i class="fa fa-angle-double-down animated"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Lets Go Section -->
-    <section id="go" class="container content-section text-center">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2">
-                <h2>Which station are you interested in?</h2>
-                    <div class="btn btn-default btn-lg page-scroll building" data-capacity=4 data-id="0">Building M</div>
-                    <br><br>
-                    <div class="btn btn-default btn-lg page-scroll building" data-capacity=1 data-id="1">Building R</div><br><br>
-                    <div class="btn btn-default btn-lg page-scroll building" data-capacity=1 data-id="2">Building V</div>
-                    <a href="#choose"></a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Choose your own adventure Section -->
-    <section id="choose" class="container content-section text-center">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2">
-                <h2>What would you like to do?</h2>
-                <div id="query">
-                  <a href="#results" class="btn btn-default btn-lg page-scroll">find out how many<br>bikes are available now</a>
-                </div>
-                <br><br>
-                <div id="submitCount">
-                  <a href="#howMany" class="btn btn-default btn-lg page-scroll">report a count/feedback</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How Many Bikes Section -->
-    <section id="howMany" class="container content-section text-center">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2">
-                <h2>How many bikes are available right now?</h2>
-                <select id="dropdown" class="form-control">
-                    <option value=4>4 Bicycles are available</option>
-                    <option value=3>3 Bicycles are available</option>
-                    <option value=2>2 Bicycles are available</option>
-                    <option value=1>1 Bicycle is available</option>
-                    <option value=0>0 Bicycles are available</option>
-                    <option value=-1 selected>Select...</option>  
-                </select>        
-            </div>
-        </div>
-    </section>
-
-    <!-- Comments Section -->
-    <section id="comments" class="container content-section text-center">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2">
-                <h2>any other comments?</h2>
-                <center>
-                  <textarea id="actualComments" class="form-control" rows="3" style="width:380px;" placeholder="nope."></textarea>
-                  <br><br>
-                  <div id="commentsSubmit">
-                    <a href="#results" class="btn btn-default btn-lg">submit</a>
+        <div class="column-10 tablet-column-6">
+          <h1 class="leader-3" >Esri bikeshare</h1>
+          <!--form action="" method="POST"-->
+            <fieldset id="numBikes" class="fieldset-radio">
+              <legend>How many bicycles did you borrow?</legend>
+              <label>
+                  <input class="dummy" type="radio" name="source" value=0>None
+                </label>
+              <label>
+                <input class="dummy" checked type="radio" name="source" value=1>Just one
+              </label>
+              <label>
+                <input class="dummy" type="radio" name="source" value=2>More than one
+              </label>
+            </fieldset>
+            <label>
+              When did you ride?
+              <input id="bikeshareDate" type="date" placeholder="mm/dd/yyyy" value="2001-02-03" required>
+            </label>
+            <label class="toggle-switch toggle-switch-destructive modifier-class clearfix">
+                <span class="toggle-switch-label left font-size--1">Are any repairs needed?</span>
+                <input id="needsRepair" type="checkbox" class="toggle-switch-input toggle-switch-destructive" onchange="showMessage()">
+                <span class="toggle-switch-track right"></span>
+              </label>
+              <div class="leader-1 trailer-1">
+                  <div id="repairInfo" class="alert alert-yellow modifier-class leader-1">
+                      If so, please send us an <a href="mailto:info@bikebbq.com">email</a> describing the problem and we will sort it out as quickly as possible.
+                      <button class="alert-close">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon">
+                            <path d="M18.404 16l9.9 9.9-2.404 2.404-9.9-9.9-9.9 9.9L3.696 25.9l9.9-9.9-9.9-9.898L6.1 3.698l9.9 9.899 9.9-9.9 2.404 2.406-9.9 9.898z"/>
+                          </svg>
+                        </button>
                   </div>
-                </center>
+                </div>
+            <label>
+              Do you have any other feedback? (optional)
+              <textarea id="feedback" placeholder="the seat on loaner bike #2 hurts!" rows="5"></textarea>
+            </label>
+            <label>
+              Do you have a photo to share? (optional)
+              <input id="attachment" type="file">
+            </label>
+            <button onclick="postFeedback()" type="submit" class="btn">Submit</button>
+
+
+            <div id="results" class="alert alert-green modifier-class leader-1">
+                The information has been submitted. Thank you!
+                <button class="alert-close">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon">
+                    <path d="M18.404 16l9.9 9.9-2.404 2.404-9.9-9.9-9.9 9.9L3.696 25.9l9.9-9.9-9.9-9.898L6.1 3.698l9.9 9.899 9.9-9.9 2.404 2.406-9.9 9.898z"/>
+                  </svg>
+                </button>
             </div>
+
         </div>
-    </section>
+        <div class="column-7 tablet-column-3">
+            <div>.</div>
+          </div>
+      </div>
 
-    <!-- navigate to results using JS (cause i couldn't figure out how to trigger the move in HTML-->
-    <a id="jumpToResults" href="#results" class="page-scroll">
-    </a>
-    <a id="jumpToComments" href="#comments" class="page-scroll">
-    </a>
-
-    <br><br><br><br><br><br><br><br>
-
-    <!-- Results Section -->
-    <section id="results" href="results" class="container content-section text-center">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2">
-                <p id="output"></p>
-            </div>
+    </div>
+    <div class="footer leader-1" role="contentinfo">
+      <!-- content of footer -->
+      <div class="grid-container">
+        <div class="column-24">
+            <p>
+                <small>
+                    <a href="https://www.esri.com/legal/copyright-trademarks">Copyright © 2018 Esri</a>. All rights reserved. |
+                    <a href="https://www.esri.com/legal/privacy">Privacy</a> |
+                    <a href="https://www.esri.com/legal/software-license">Terms of use</a> |
+                    <a href="https://developers.arcgis.com/terms/faq/">FAQ</a>
+                </small>
+              </p>
         </div>
-    </section>
-    
-    <br><br><br><br><br><br><br><br>
-    
-    <!-- Footer -->
-    <footer>
-        <div class="container text-center">
-            Copyright &copy; Esri 2014.  (based on <a href="https://github.com/IronSummitMedia/startbootstrap/tree/gh-pages/templates/grayscale">this</a> template).
-        </div>
-    </footer>
+      </div>
+    </div>
 
-    <!-- jQuery Version 1.11.0 -->
-    <script src="js/jquery-1.11.0.js"></script>
+    <!-- get calcite-web js from the cdn (use latest version) -->
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-rc.9/js/calcite-web.min.js"></script>
+    <script src="https://unpkg.com/@esri/arcgis-rest-request@1.1.1/dist/umd/arcgis-rest-request.umd.min.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <!-- interactive patterns need to be initialized -->
+    <script>
+      calcite.init()
 
-    <!-- Plugin JavaScript -->
-    <script src="js/jquery.easing.min.js"></script>
+      function postFeedback () {
+        const url = "https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/esri_bikeshare_counts/FeatureServer/0/applyEdits";
 
-    <!-- dojo suckas -->
-    <!--script data-dojo-config="async: 1"
-            src="//ajax.googleapis.com/ajax/libs/dojo/1.9.3/dojo/dojo.js"></script-->
+        // introspect the fieldset for the currently selected radio
+        const howMany = document.querySelector('.dummy:checked').value;
 
-    <!-- Custom Theme JavaScript -->
-    <script src="js/thegoods.js"></script>
+        arcgisRest.request(url, {
+          params: {
+            adds: [{
+              attributes: {
+                "DATE": document.getElementById("bikeshareDate").value,
+                "NUMBIKES": howMany,
+                "FEEDBACK": document.getElementById("feedback").value
+              }
+            }]
+          }
+        })
+          .then(response => {
+            if (response.addResults.length > 0) {
+              document.getElementById("results").className += " is-active";
 
-</body>
+              // append a file attachment to the new record (if one has been supplied).
+              if (document.getElementById("attachment").value) {
+                const attachmentUrl = `https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/esri_bikeshare_counts/FeatureServer/0/${response.addResults[0].objectId}/addAttachment`
 
+                arcgisRest.request(attachmentUrl, {
+                  params: {
+                    "attachment": document.getElementById("attachment").files[0]
+                  }
+                })
+              }
+            }
+          });
+      }
+
+      function todayFormatted () {
+        const today = new Date();
+        let dd = today.getDate();
+        let mm = today.getMonth() + 1; // January is 0!
+
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10){
+            mm = '0' + mm;
+        }
+        return today.getFullYear() + '-' + mm + '-' + dd;
+      }
+
+      // for starters assume they are borrowing a bike today
+      document.getElementById("bikeshareDate").value = todayFormatted();
+
+      // since the feature service itself isn't monitored, email is the best way to request repairs.
+      function showMessage(e) {
+        document.getElementById("repairInfo").className += " is-active";
+      }
+    </script>
+  </body>
 </html>
