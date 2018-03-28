@@ -1,4 +1,6 @@
 /*!
+ * version 0.2
+ * by @geogangster
  * Start Bootstrap - Grayscale Bootstrap Theme (http://startbootstrap.com)
  * Code licensed under the Apache License v2.0.
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
@@ -8,6 +10,8 @@ make dropdown values dependent on chosen station
 
 add a map?.... nah.
  */
+
+var reportedBikeCount;
 
 // jQuery to collapse the navbar on scroll
 $(window).scroll(function() {
@@ -43,7 +47,10 @@ $('#commentsSubmit').click(submitFeedback);
 function setStation(evt) {  
   $(".building").removeClass("selected");
   $(this).addClass("selected");
-  window.location=$("#go").find("a").attr("href"); 
+  //window.location=$("#go").find("a").attr("href");
+  $('html, body').stop().animate({
+            scrollTop: $("#choose").offset().top
+        }, 750, 'easeInOutExpo');
 }
 
 function queryStation() {
@@ -125,8 +132,6 @@ function submitFeedback() {
 
   //people can report on available bikes at the same time as comments
   if ($('#dropdown').val() > -1) {
-    var reportedBikeCount;
-    var derivedEmptySlots;
     jsonAdd.attributes.AVAILABLEBIKES = reportedBikeCount;
     jsonAdd.attributes.EMPTYSLOTS = derivedEmptySlots;
   }
