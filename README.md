@@ -1,7 +1,5 @@
 # esri bikeshare
 
-website to help employees log their rides and submit feedback regarding esri's [bikeshare](http://www.bikebbq.com/2013/08/bikebbq-and-ieba-team-up-to-provide.html)
-
-https://johngravois.com/bikeshare-counter/
+website for esri employees to log their [bikeshare](http://www.bikebbq.com/2013/08/bikebbq-and-ieba-team-up-to-provide.html) rides and submit feedback.
 
 ![QR code](qrcode.png)
